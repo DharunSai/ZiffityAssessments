@@ -1,10 +1,10 @@
 <?php
 session_start();
-require_once 'DB.php';
-require_once 'User.php';
+require_once 'php/DB.php';
+require_once 'php/User.php';
 
 if (User::isLoggedIn()) {
-    header("Location: index.php");
+    header("Location: php/index.php");
     exit();
 }
 
@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     elseif (User::isUsernameAvailable($username)) {
        
         if (User::signup($username, $password)) {
-            header('Location: index.php');
+            header('Location: php/index.php');
             $success = "Signup successful! Please login.";
             
         } else {
@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="signupStyles.css">
+    <link rel="stylesheet" href="css/signupStyles.css">
     <title>Car Parking Vault - Signup</title>
 </head>
 <body>
@@ -72,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
      
     <div class="container-2">
     <p>If you have already signed in...</p>
-    <a href="login.php">login</a>
+    <a href="php/login.php">login</a>
     </div>
 </body>
 </html>

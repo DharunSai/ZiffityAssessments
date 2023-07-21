@@ -1,6 +1,6 @@
 <?php
-require_once 'DB.php';
-require_once 'ParkingLot.php';
+require_once 'php/DB.php';
+require_once 'php/ParkingLot.php';
 
 class Utilization
 {
@@ -11,6 +11,7 @@ class Utilization
     private $intime;
     private $outtime;
     private $fare;
+    private $conn;
 
     public function __construct($utilizationId, $userId, $slotId, $carNumber, $intime, $outtime)
     {
@@ -20,6 +21,7 @@ class Utilization
         $this->carNumber = $carNumber;
         $this->intime = $intime;
         $this->outtime = $outtime;
+        $this->conn=DB::getConnection();
     }
 
     public function getUtilizationId()

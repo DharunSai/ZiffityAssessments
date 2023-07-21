@@ -1,12 +1,12 @@
 <?php
 session_start();
-require_once 'DB.php';
-require_once 'User.php';
-require_once 'ParkingLot.php';
-require_once 'Utilization.php';
+require_once 'php/DB.php';
+require_once 'php/User.php';
+require_once 'php/ParkingLot.php';
+require_once 'php/Utilization.php';
 
 if (!User::isLoggedIn()) {
-    header("Location: login.php");
+    header("Location: php/login.php");
     exit();
 }
 $user = unserialize(User::getLoggedInUser());
@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['park']) && $hasParked
                 ParkingLot::updateSlotAvailability($selectedSlot, 1);
                 $success = "Car parked successfully!";
 
-                header('Location: index.php');
+                header('Location: php/index.php');
             } else {
                 $error = "Error while parking the car. Please try again.";
             }
@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['park']) && $hasParked
        
         Utilization::recordOuttime($user->getUserId());
         
-        header('Location: receipt.php');
+        header('Location: php/receipt.php');
         } 
         else {
         $error = "Selected parking slot is not assigned to you.";

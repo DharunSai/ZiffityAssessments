@@ -1,5 +1,5 @@
 <?php
-require_once 'DB.php';
+require_once 'php/DB.php';
 
 class ParkingLot {
     public static function getAvailableParkingSlots() {

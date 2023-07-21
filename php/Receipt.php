@@ -1,7 +1,7 @@
 <?php
-require_once 'DB.php';
-require_once 'User.php';
-require_once 'Utilization.php';
+require_once 'php/DB.php';
+require_once 'php/User.php';
+require_once 'php/Utilization.php';
 
 class Receipt
 {
@@ -37,7 +37,7 @@ class Receipt
         $stmt->close();
 
         ob_start();
-        include 'receiptTemplate.php';
+        include 'php/receiptTemplate.php';
         return ob_get_clean();
     }
 

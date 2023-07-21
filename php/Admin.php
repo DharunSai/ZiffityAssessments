@@ -1,8 +1,8 @@
 <?php
 session_start();
-require_once 'DB.php';
-require_once 'User.php';
-require_once 'Utilization.php';
+require_once 'php/DB.php';
+require_once 'php/User.php';
+require_once 'php/Utilization.php';
 class Admin
 {
     private $isAdmin;
@@ -33,7 +33,7 @@ class Admin
         <!DOCTYPE html>
         <html>
         <head>
-            <link rel="stylesheet" href="adminStyles.css">
+            <link rel="stylesheet" href="css/adminStyles.css">
             <title>Car Parking Vault - Admin Page</title>
         </head>
         <body>
@@ -49,7 +49,7 @@ class Admin
                 </tr>
                 $dataRows
             </table>
-            <a href="login.php">Logout</a>
+            <a href="php/login.php">Logout</a>
         </body>
         </html>
 HTML;

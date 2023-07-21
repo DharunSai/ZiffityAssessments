@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once 'DB.php';
-require_once 'User.php';
+require_once 'php/DB.php';
+require_once 'php/User.php';
 
 if (User::isLoggedIn()) {
     header("Location: index.php");
@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'];
 
     if ($username == 'admin' && $password == 'admin') {
-        header('Location: admin.php');
+        header('Location: php/admin.php');
     }
     $user = User::login($username, $password);
     if ($user) {
@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html>
 
 <head>
-    <link rel="stylesheet" href="loginStyles.css">
+    <link rel="stylesheet" href="css/loginStyles.css">
     <title>Car Parking Vault - Login</title>
 </head>
 
@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <div class="container-2">
         <p>If you havent signed up</p>
-        <a style="text-decoration: none" href="signup.php">signup</a>
+        <a style="text-decoration: none" href="php/signup.php">signup</a>
     </div>
 </body>
 
