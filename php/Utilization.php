@@ -24,6 +24,11 @@ class Utilization
         $this->conn=DB::getConnection();
     }
 
+    public static function databaseConnection()
+    {
+        return DB::getConnection();
+    }
+
     public function getUtilizationId()
     {
         return $this->utilizationId;
@@ -72,7 +77,7 @@ class Utilization
 
     public static function getDataBySessionId($userId)
     {
-        $conn = DB::getConnection();
+        $conn = self::databaseConnection();
         $stmt = $conn->prepare("SELECT * FROM utilization WHERE userId = ? order by outtime DESC limit 1");
         $stmt->bind_param("i", $userId);
         $stmt->execute();
