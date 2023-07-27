@@ -72,7 +72,7 @@ class Utilization
 
     public function setFare($fare)
     {
-        $this->fare = $fare;
+        $this->fare = $fare;    
     }
 
     public static function getDataBySessionId($userId)
@@ -93,7 +93,7 @@ class Utilization
     {
 
         ParkingLot::updateSlotAvailability($slotId, 1);
-        $conn = DB::getConnection();
+        $conn =  self::databaseConnection();
         $stmt = $conn->prepare("INSERT INTO utilization (userId, slotId, carNumber, intime) VALUES (?, ?, ?, ?)");
         $stmt->bind_param("iiss", $userId, $slotId, $carNumber, $intime);
         $result = $stmt->execute();
@@ -104,7 +104,7 @@ class Utilization
 
     public static function hasUserParkedCar($userId)
     {
-        $conn = DB::getConnection();
+        $conn =  self::databaseConnection();
         $stmt = $conn->prepare("SELECT COUNT(*) AS count FROM utilization WHERE userId = ? AND outtime IS NULL");
         $stmt->bind_param("i", $userId);
         $stmt->execute();
@@ -116,7 +116,7 @@ class Utilization
 
     private static function isUserHasActiveUtilization($userId)
     {
-        $conn = DB::getConnection();
+        $conn =  self::databaseConnection();
         $stmt = $conn->prepare("SELECT * FROM utilization WHERE userId = ? AND outtime IS NULL");
         $stmt->bind_param("i", $userId);
         $stmt->execute();
@@ -127,7 +127,7 @@ class Utilization
 
     public static function getUtilizationBySlot($slotId)
     {
-        $conn = DB::getConnection();
+        $conn =  self::databaseConnection();
         $stmt = $conn->prepare("SELECT * FROM utilization WHERE slotId = ?");
         $stmt->bind_param("s", $slotId);
         $stmt->execute();
@@ -144,7 +144,7 @@ class Utilization
 
     public static  function  getSlotIdFromDb($userId)
     {
-        $conn = DB::getConnection();
+        $conn =  self::databaseConnection();
         $stmt = $conn->prepare("SELECT slotId FROM utilization WHERE userId = ?  and utilizationId = (SELECT t.utilizationId FROM ( SELECT MAX(utilizationId) AS utilizationId   FROM utilization  ) AS t)");
         $stmt->bind_param("i", $userId);
         $stmt->execute();
@@ -168,7 +168,7 @@ class Utilization
 
     public static function getAllUtilizations()
     {
-        $conn = DB::getConnection();
+        $conn =  self::databaseConnection();
         $query = "SELECT * FROM utilization";
         $result = $conn->query($query);
         $utilizations = array();
@@ -194,7 +194,7 @@ class Utilization
 
     public function update()
     {
-        $conn = DB::getConnection();
+        $conn =  self::databaseConnection();
         $stmt = $conn->prepare("UPDATE utilization SET outtime = ? WHERE utilizationId = ?");
         $stmt->bind_param("si", $this->outtime, $this->utilizationId);
         $result = $stmt->execute();
@@ -204,7 +204,7 @@ class Utilization
 
     public static function isSlotAssignedToUser($userId, $slotId)
     {
-        $conn = DB::getConnection();
+        $conn =  self::databaseConnection();
         $stmt = $conn->prepare("SELECT * FROM utilization WHERE userId = ? AND slotId = ?");
         $stmt->bind_param("is", $userId, $slotId);
         $stmt->execute();

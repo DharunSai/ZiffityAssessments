@@ -5,16 +5,23 @@ require_once 'php/User.php';
 require_once 'php/Utilization.php';
 class Admin
 {
-    private $isAdmin;
+    
+    private $conn;
     private $utilizationData = [];
     public function __construct()
     {
         $this->fetchUtilizationData();
+        $this->conn=DB::getConnection();
         
     }
+    
+    
+
     private function fetchUtilizationData()
     {
-        $conn = DB::getConnection();
+        try
+        {
+        $conn=DB::getConnection();
         $stmt = $conn->prepare("SELECT * FROM utilization");
         $stmt->execute();
         $result = $stmt->get_result();
@@ -22,6 +29,11 @@ class Admin
             while ($row = $result->fetch_assoc()) {
                 $this->utilizationData[] = $row;
             }
+        }
+        }
+        catch(Exception $e)
+        {
+            echo  $e->getMessage();
         }
     }
 
@@ -76,3 +88,6 @@ HTML;
 
 $admin = new Admin();
 $admin->generateAdminPage();
+
+
+session_destroy();

@@ -4,27 +4,27 @@ require_once 'php/DB.php';
 require_once 'php/User.php';
 
 if (User::isLoggedIn()) {
-    header("Location: index.php");
+    header("Location: php/index.php");
     exit();
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['username'];
     $password = $_POST['password'];
+    try {
+        $hashedPasswordFromDB = User::getHashedPasswordByUsername($username);
 
-    if ($username == 'admin' && $password == 'admin') {
-        header('Location: php/admin.php');
-    }
-    $user = User::login($username, $password);
-    if ($user) {
-
-        $_SESSION['u'] = base64_encode(serialize($user));
+        if ($hashedPasswordFromDB && password_verify($password, $hashedPasswordFromDB)) {
 
 
-
-        header("Location: index.php");
-    } else {
-        $error = "Invalid username or password. Please try again.";
+            $_SESSION['username'] = $username;
+            header("Location: php/index.php");
+            exit();
+        } else {
+            $error = "Invalid username or password. Please try again.";
+        }
+    } catch (Exception $e) {
+        echo $e->getMessage();
     }
 }
 ?>
@@ -62,3 +62,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </body>
 
 </html>
+
+<?php session_destroy(); ?>

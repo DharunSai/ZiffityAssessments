@@ -18,6 +18,7 @@ class Receipt
 
     public function generateReceipt()
     {
+
         $intime=$this->data['intime'];
         $outtime=$this->data['outtime'];
         $outtimee = strtotime($this->data['outtime']);
@@ -39,6 +40,8 @@ class Receipt
         ob_start();
         include 'php/receiptTemplate.php';
         return ob_get_clean();
+
+
     }
 
     public static function calculateFare($intime, $outtime)
@@ -52,3 +55,5 @@ class Receipt
 $receipt = new Receipt();
 $receiptHtml = $receipt->generateReceipt();
 echo $receiptHtml;
+
+ session_destroy();

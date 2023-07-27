@@ -29,22 +29,20 @@ class User {
         return null;
     }
 
-    public static function login($username, $password) {
-        $conn = DB::getConnection();
-        $stmt = $conn->prepare("SELECT * FROM users WHERE username = ?");
-        $stmt->bind_param("s", $username);
-        $stmt->execute();
-        $result = $stmt->get_result();
+    // 
 
-        if ($result->num_rows === 1) {
+    public static function getHashedPasswordByUsername($username) {
+            
+        $conn = DB::getConnection();
+        $username = $conn->real_escape_string($username);
+        $sql = "SELECT password FROM users WHERE username = '$username'";
+        $result = $conn->query($sql);
+
+        if ($result && $result->num_rows === 1) {
             $row = $result->fetch_assoc();
-            if ($password== $row['password']) {
-                $user = new User($row['userId'], $row['username']);
-                $_SESSION['user'] = serialize($user);
-                return $user;
-            }
+            return $row['password'];
         }
-        return false;
+        return null;
     }
 
     public static function signup($username, $password) {
@@ -71,3 +69,21 @@ class User {
         session_destroy();
     }
 }
+
+// public static function login($username, $password) {
+//         $conn = DB::getConnection();
+//         $stmt = $conn->prepare("SELECT * FROM users WHERE username = ?");
+//         $stmt->bind_param("s", $username);
+//         $stmt->execute();
+//         $result = $stmt->get_result();
+
+//         if ($result->num_rows === 1) {
+//             $row = $result->fetch_assoc();
+//             if ($password== $row['password']) {
+//                 $user = new User($row['userId'], $row['username']);
+//                 $_SESSION['user'] = serialize($user);
+//                 return $user;
+//             }
+//         }
+//         return false;
+//     }

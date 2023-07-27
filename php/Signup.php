@@ -17,32 +17,33 @@ function validatePassword($password) {
     $pattern = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/';
     return preg_match($pattern, $password);
 }
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['username'];
     $password = $_POST['password'];
+
     if (!validateUsername($username)) {
-        
         $error = "Username is not valid.";
-    } 
-    elseif(!validatePassword($password)) {
-       
-        $error= "Password doesnt satisfy the norms";
-    }
-    // Perform signup
-    elseif (User::isUsernameAvailable($username)) {
-       
-        if (User::signup($username, $password)) {
-            header('Location: php/index.php');
-            $success = "Signup successful! Please login.";
-            
-        } else {
-            $error = "Error while signing up. Please try again.";
-        }
+    } elseif (!validatePassword($password)) {
+        $error = "Password doesn't satisfy the norms";
     } else {
-        $error = "Username is already taken. Please choose a different username.";
+        if (User::isUsernameAvailable($username)) {
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            if (User::signup($username, $hashedPassword)) {
+                header('Location: php/index.php');
+                $success = "Signup successful! Please login.";
+            } else {
+                $error = "Error while signing up. Please try again.";
+            }
+        } else {
+            $error = "Username is already taken. Please choose a different username.";
+        }
     }
 }
+
+session_destroy();
 ?>
+
 
 <!DOCTYPE html>
 <html>
