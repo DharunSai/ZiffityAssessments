@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Tasks_Feedback::customer_feedback_manage" title="Customer Feedback" module="Tasks_Feedback" parent="Magento_Customer::customer" action="adminfeedback/index/index" sortOrder="10" resource="Magento_Customer::customer"/>
+    </menu>
+</config>
