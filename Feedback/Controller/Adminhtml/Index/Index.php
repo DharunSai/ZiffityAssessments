@@ -10,6 +10,7 @@ namespace Tasks\Feedback\Controller\Adminhtml\Index;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\View\Result\PageFactory;
 use Magento\Backend\App\Action;
+use Magento\Framework\Controller\ResultInterface;
 
 /**
  * Index Action Controller
@@ -38,7 +39,7 @@ class Index extends Action
     /**
      * Execute action to display the adminhtml index page
      *
-     * @return \Magento\Framework\Controller\ResultInterface
+     * @return ResultInterface
      */
     public function execute()
     {

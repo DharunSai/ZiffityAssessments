@@ -4,7 +4,8 @@ namespace Tasks\Feedback\Block;
 
 use Magento\Framework\View\Element\Template;
 use Tasks\Feedback\Model\ResourceModel\Feedback\Collection;
-use \Magento\Framework\UrlInterface;
+use Magento\Framework\UrlInterface;
+
 /**
  * Feedback Form Block
  *
@@ -27,7 +28,7 @@ class FeedbackForm extends Template
      *
      * @param Template\Context $context
      * @param Collection $collection
-     * @param \Magento\Framework\UrlInterface $urlBuilder
+     * @param UrlInterface $urlBuilder
      * @param array $data
      */
     public function __construct(

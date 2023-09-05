@@ -51,6 +51,24 @@ class Save extends Action
         parent::__construct($context);
     }
 
+     /**
+     * This method will access the resource model
+     */
+    public function accessResourceModel($feed)
+    {
+        try {
+            $this->feedbackResourceModel->save($feed);
+            $this->messageManager->addSuccessMessage(__("Successfully added  %1"));
+        } catch (\Exception $e) {
+            $this->messageManager->addErrorMessage(__("Something went wrong."));
+        }
+        /* Redirect back to hero display page */
+        $redirect = $this->resultRedirectFactory->create();
+        $redirect->setPath('');
+        return $redirect;
+    }
+
+
     /**
      * This method will save the form data in database
      */
@@ -70,16 +88,7 @@ class Save extends Action
                 'feedback' => $CustomerFeedback
             ];
             $feed = $this->feedback->setData($dataObject);
-            try {
-                $this->feedbackResourceModel->save($feed);
-                $this->messageManager->addSuccessMessage(__("Successfully added  %1"));
-            } catch (\Exception $e) {
-                $this->messageManager->addErrorMessage(__("Something went wrong."));
-            }
-            /* Redirect back to hero display page */
-            $redirect = $this->resultRedirectFactory->create();
-            $redirect->setPath('');
-            return $redirect;
+            $this->accessResourceModel($feed);
         } else {
             $dataObject = [
                 'firstName' => $params['first_name'],
@@ -88,15 +97,7 @@ class Save extends Action
                 'feedback' => $params['feedback']
             ];
             $feed = $this->feedback->setData($dataObject);
-            try {
-                $this->feedbackResourceModel->save($feed);
-                $this->messageManager->addSuccessMessage(__("Successfully added the feedback"));
-            } catch (\Exception $e) {
-                $this->messageManager->addErrorMessage(__("Something went wrong."));
-            }
-            $redirect = $this->resultRedirectFactory->create();
-            $redirect->setPath('');
-            return $redirect;
+            $this->accessResourceModel($feed);
         }
     }
 }

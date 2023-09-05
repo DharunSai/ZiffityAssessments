@@ -4,7 +4,7 @@ namespace Tasks\Feedback\Controller\Adminhtml\Action;
 
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\View\Result\PageFactory;
-use \Magento\Backend\App\Action;
+use Magento\Backend\App\Action;
 
 /**
  * Adminhtml View Feedback Action Controller

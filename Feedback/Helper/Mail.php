@@ -67,12 +67,10 @@ class Mail extends AbstractHelper
      */
     public function sendEmail($email, $templateId)
     {
-        // Example code for sending email
-        // You can customize template ID, sender email, receiver email, and template variables as needed.
-
-        $fromEmail = 'dharundash@gmail.com';  // Sender's Email address
-        $fromName = 'Admin';             // Sender's Name
-        $toEmail = $email; // Receiver's email address
+        
+        $fromEmail = 'dharundash@gmail.com'; 
+        $fromName = 'Admin';             
+        $toEmail = $email; 
 
         try {
             // Template variables to pass

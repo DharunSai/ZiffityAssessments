@@ -8,6 +8,7 @@ use Magento\Backend\App\Action;
 use Tasks\Feedback\Helper\Mail;
 use Magento\Framework\App\Request\Http;
 use Tasks\Feedback\Model\Feedback;
+use Magento\Framework\Controller\ResultInterface;
 
 /**
  * Adminhtml Reject Mail Action Controller
@@ -54,7 +55,7 @@ class Reject extends Action
     /**
      * Execute action to mark feedback as rejected, send email, and display the result page
      *
-     * @return \Magento\Framework\Controller\ResultInterface
+     * @return ResultInterface
      */
     public function execute()
     {
