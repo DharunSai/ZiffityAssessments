@@ -1,20 +1,45 @@
 <?php
 /**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * Tasks Feedback Adminhtml Index Controller
+ *
+ * @package Tasks\Feedback\Controller\Adminhtml\Index
  */
+
 namespace Tasks\Feedback\Controller\Adminhtml\Index;
-class Index extends \Magento\Backend\App\Action
+
+use Magento\Backend\App\Action\Context;
+use Magento\Framework\View\Result\PageFactory;
+use Magento\Backend\App\Action;
+
+/**
+ * Index Action Controller
+ */
+class Index extends Action
 {
+    /**
+     * @var PageFactory
+     */
     protected $resultPageFactory = false;
+
+    /**
+     * Index constructor.
+     *
+     * @param Context $context
+     * @param PageFactory $resultPageFactory
+     */
     public function __construct(
-        \Magento\Backend\App\Action\Context        $context,
-        \Magento\Framework\View\Result\PageFactory $resultPageFactory
-    )
-    {
+        Context $context,
+        PageFactory $resultPageFactory
+    ) {
         parent::__construct($context);
         $this->resultPageFactory = $resultPageFactory;
     }
+
+    /**
+     * Execute action to display the adminhtml index page
+     *
+     * @return \Magento\Framework\Controller\ResultInterface
+     */
     public function execute()
     {
         $resultPage = $this->resultPageFactory->create();

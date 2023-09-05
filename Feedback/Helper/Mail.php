@@ -9,40 +9,76 @@ use Magento\Framework\Translate\Inline\StateInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\Escaper;
 
+/**
+ * Feedback Mail Helper
+ *
+ * @package Tasks\Feedback\Helper
+ */
 class Mail extends AbstractHelper
 {
+    /**
+     * @var TransportBuilder
+     */
     protected $transportBuilder;
+
+    /**
+     * @var StoreManagerInterface
+     */
     protected $storeManager;
+
+    /**
+     * @var Escaper
+     */
     protected $escaper;
+
+    /**
+     * @var StateInterface
+     */
     protected $inlineTranslation;
 
+    /**
+     * Mail constructor.
+     *
+     * @param Context $context
+     * @param TransportBuilder $transportBuilder
+     * @param StoreManagerInterface $storeManager
+     * @param Escaper $escaper
+     * @param StateInterface $state
+     */
     public function __construct(
         Context $context,
         TransportBuilder $transportBuilder,
         StoreManagerInterface $storeManager,
         Escaper $escaper,
         StateInterface $state
-    )
-    {
+    ) {
         $this->escaper = $escaper;
         $this->transportBuilder = $transportBuilder;
         $this->storeManager = $storeManager;
         $this->inlineTranslation = $state;
         parent::__construct($context);
     }
-    public function sendEmail($email,$templateId)
+
+    /**
+     * Send email with the specified template
+     *
+     * @param string $email
+     * @param string $templateId
+     */
+    public function sendEmail($email, $templateId)
     {
-        // this is an example and you can change template id,fromEmail,toEmail,etc as per your need.
-        // template id
-        $fromEmail = 'dharundash@gmail.com';  // sender Email id
-        $fromName = 'Admin';             // sender Name
-        $toEmail = $email; // receiver email id
+        // Example code for sending email
+        // You can customize template ID, sender email, receiver email, and template variables as needed.
+
+        $fromEmail = 'dharundash@gmail.com';  // Sender's Email address
+        $fromName = 'Admin';             // Sender's Name
+        $toEmail = $email; // Receiver's email address
 
         try {
-            // template variables pass here
+            // Template variables to pass
             $templateVars = [
-                'AcceptStatus'=>'accepted',
-                'RejectStatus'=>'rejected'
+                'AcceptStatus' => 'accepted',
+                'RejectStatus' => 'rejected'
             ];
 
             $storeId = $this->storeManager->getStore()->getId();
@@ -67,5 +103,4 @@ class Mail extends AbstractHelper
             $this->_logger->info($e->getMessage());
         }
     }
-
 }

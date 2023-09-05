@@ -2,8 +2,10 @@
 
 namespace Tasks\Feedback\Observer;
 use Psr\Log\LoggerInterface;
+use Magento\Framework\Event\ObserverInterface;
+use Magento\Framework\Event\Observer;
 
-class SetDisplayText  implements \Magento\Framework\Event\ObserverInterface
+class SetDisplayText  implements ObserverInterface
 {
     public $logger;
 
@@ -11,7 +13,7 @@ class SetDisplayText  implements \Magento\Framework\Event\ObserverInterface
         $this->logger = $logger;
     }
 
-    public function execute(\Magento\Framework\Event\Observer $observer)
+    public function execute(Observer $observer)
     {
         $displayText = $observer->getEvent()->getData('data');
         $name = $displayText->getfirstname();

@@ -1,7 +1,8 @@
 <?php
 /**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * FeedbackAction Listing Column for UI Component
+ *
+ * @package Tasks\Feedback\Ui\Component\Listing\Columns
  */
 namespace Tasks\Feedback\Ui\Component\Listing\Columns;
 
@@ -11,7 +12,7 @@ use Magento\Ui\Component\Listing\Columns\Column;
 use Magento\Framework\UrlInterface;
 
 /**
- * Class ProductActions for Listing Columns
+ * FeedbackAction Column Class
  *
  * @api
  * @since 100.0.2
@@ -24,6 +25,8 @@ class FeedbackAction extends Column
     protected $urlBuilder;
 
     /**
+     * Constructor
+     *
      * @param ContextInterface $context
      * @param UiComponentFactory $uiComponentFactory
      * @param UrlInterface $urlBuilder
@@ -53,16 +56,14 @@ class FeedbackAction extends Column
             $storeId = $this->context->getFilterParam('store_id');
 
             foreach ($dataSource['data']['items'] as &$item) {
-                // var_dump($item);
-                // exit;
                 $item[$this->getData('name')] = [
                     'View' => [
                         'href' => $this->urlBuilder->getUrl(
-                            'adminfeedback/action/view',['id' => $item['id'],  'email'=>$item['email'],'store' => $storeId]
+                            'adminfeedback/action/view',
+                            ['id' => $item['id'], 'email' => $item['email'], 'store' => $storeId]
                         ),
                         'label' => __('View')
                     ],
-
                 ];
             }
         }
