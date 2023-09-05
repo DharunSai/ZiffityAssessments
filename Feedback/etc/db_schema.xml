@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="feedback_form" resource="default" engine="innodb" comment="Getting feedback from users">
+        <column xsi:type="int" name="id" padding="11" unsigned="false" nullable="false" identity="true" comment="ID"/>
+        <column xsi:type="varchar" name="firstName" length="100"  nullable="false"  comment="First Name"/>
+        <column xsi:type="varchar" name="lastName" length="100"  nullable="false"  comment="Last Name"/>
+        <column xsi:type="varchar" name="email" length="100"  nullable="false"  comment="Email"/>
+        <column xsi:type="varchar" name="feedback" length="500"  nullable="false"  comment="Feedback"/>
+        <column xsi:type="int" name="status" unsigned="false"  nullable="false"  default="2" comment="Status"/>
+      
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+         <index referenceId="IDX_FEEDBACK_FORM_FIRSTNAME">
+            <column name="firstName"/>
+        </index>
+         <index referenceId="IDX_FEEDBACK_FORM_LASTNAME">
+            <column name="lastName"/>
+        </index>
+        <index referenceId="IDX_FEEDBACK_FORM_EMAIL">
+            <column name="email"/>
+        </index>
+        <index referenceId="IDX_FEEDBACK_FORM_STATUS">
+            <column name="status"/>
+        </index>
+    </table>
+</schema>

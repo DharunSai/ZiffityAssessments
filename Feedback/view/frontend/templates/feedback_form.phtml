@@ -1,0 +1,7 @@
+<form method="post" action="<?php echo $block->getPostUrl() ?>">
+    <div>
+        <label for="feedback"><?= __("Feedback") ?></label>
+        <input type="text" name="feedback" data-validate="{required:true}"/>
+    </div>
+    <input type="submit" value="<?= __("Add Review") ?>" />
+</form>
