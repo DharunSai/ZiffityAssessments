@@ -9,8 +9,6 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Assessment\CustomerCommand\Model\Import\CsvProfile;
-use Assessment\CustomerCommand\Model\Import\JsonProfile;
 
 /**
  * Class ImportCustomerCommand

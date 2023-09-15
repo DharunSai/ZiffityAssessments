@@ -3,10 +3,8 @@
 namespace Assessment\CustomerCommand\Model\Import;
 
 use Assessment\CustomerCommand\Api\ProfileInterface;
-use Magento\Framework\Serialize\SerializerInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\File\Csv;
-use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Model\CustomerFactory;
 use Magento\Customer\Model\ResourceModel\Customer as ResourceModel;
 
@@ -33,27 +31,21 @@ class CsvProfile implements ProfileInterface
     protected $customerRepository;
 
     /**
-     * @var SerializerInterface
-     */
-    private $serializer;
-
-    /**
      * CsvProfile constructor.
      *
      * @param Csv $csv
      * @param ResourceModel $customerRepository
      * @param CustomerFactory $customerFactory
-     * @param SerializerInterface $serializer
+     
      */
     public function __construct(
         Csv $csv,
         ResourceModel $customerRepository,
-        CustomerFactory $customerFactory,
-        SerializerInterface $serializer
+        CustomerFactory $customerFactory
+        
     ) {
         $this->csv = $csv;
         $this->customerFactory = $customerFactory;
-        $this->serializer = $serializer;
         $this->customerRepository = $customerRepository;
     }
 
