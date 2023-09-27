@@ -1,9 +1,7 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <preference for="Assessment\CustomerCommand\Api\ProfileInterface" type="Assessment\CustomerCommand\Model\Import\CsvProfile"></preference>
-    <preference for="Assessment\CustomerCommand\Api\ProfileInterface" type="Assessment\CustomerCommand\Model\Import\JsonProfile"></preference>
-    <type name="Magento\Framework\Console\CommandListInterface">
-        <arguments>
+    <preference for="Assessment\CustomerCommand\Api\ProfileInterface" type="Assessment\CustomerCommand\Model\Import\CsvProfile" />
+    <preference for="Assessment\CustomerCommand\Api\ProfileInterface" type="Assessment\CustomerCommand\Model\Import\JsonProfile" />
             <argument name="commands" xsi:type="array">
                 <item name="importcustomer" xsi:type="object">Assessment\CustomerCommand\Console\Command\ImportCustomerCommand</item>
             </argument>

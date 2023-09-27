@@ -1,7 +1,9 @@
 <?php
+declare(strict_types=1);
 
 namespace Assessment\CustomerCommand\Model\Import;
 
+use Psr\Log\LoggerInterface;
 use Assessment\CustomerCommand\Api\ProfileInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\File\Csv;
@@ -21,6 +23,11 @@ class CsvProfile implements ProfileInterface
     protected $csv;
 
     /**
+     * @var LoggerInterface
+     */
+    protected $logger;
+
+    /**
      * @var CustomerFactory
      */
     protected $customerFactory;
@@ -35,30 +42,28 @@ class CsvProfile implements ProfileInterface
      * @param Csv $csv
      * @param ResourceModel $customerRepository
      * @param CustomerFactory $customerFactory
+     * @param LoggerInterface $LoggerInterface
      */
-
     public function __construct(
         Csv $csv,
         ResourceModel $customerRepository,
-        CustomerFactory $customerFactory
+        CustomerFactory $customerFactory,
+        LoggerInterface $logger
     ) {
         $this->csv = $csv;
         $this->customerFactory = $customerFactory;
         $this->customerRepository = $customerRepository;
+        $this->logger = $logger;
     }
 
-    /**
-     * Import customer data from a CSV file.
+     /**
+     * Import customer data from an array of data and save it in database.
      *
-     * @param string $source The path to the CSV file
+     * @param array $csvData
      */
-
-    public function import($source)
+    protected function importCustomers(array $csvData)
     {
-        try {
-            $csvData = array_map('str_getcsv', file($source));
-            $csvHeaders = array_shift($csvData);
-            foreach ($csvData as $row) {
+        foreach ($csvData as $row) {
                 list($firstname, $lastname, $email) = $row;
                 $customer = $this->customerFactory->create();
                 $customer->setFirstname($firstname);
@@ -67,11 +72,24 @@ class CsvProfile implements ProfileInterface
                 $customer->setWebsiteId(1);
                 $customer->setGroupId(1);
                 $this->customerRepository->save($customer);
-                print_r('successfully updated');
+                $this->logger->info('Customer imported successfully');
             }
+        }
+
+    /**
+     * Import customer data from a CSV file.
+     *
+     * @param string $source The path to the CSV file
+     */
+    public function import($source)
+    {
+        try {
+            $csvData = array_map('str_getcsv', file($source));
+            $this->importCustomers($csvData,);
+            
         } 
         catch (LocalizedException $e) {
-            print_r( $e->getMessage() );
+            $this->logger->error($e->getMessage());
         }
     }
 }

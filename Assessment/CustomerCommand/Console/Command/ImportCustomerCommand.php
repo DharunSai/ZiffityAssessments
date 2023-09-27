@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Assessment\CustomerCommand\Console\Command;
@@ -9,7 +8,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use \Magento\Framework\Console;
+use Magento\Framework\Console;
 
 /**
  * Class ImportCustomerCommand
@@ -18,9 +17,25 @@ use \Magento\Framework\Console;
  */
 class ImportCustomerCommand extends Command
 {
+    /**
+     * The NAME constant represents a placeholder for a string.
+     * It is declared as 'name'.
+     * @var string
+     */
     private const NAME = 'name';
+
+    /**
+     * The profiles property holds an array of profile objects.
+     * @var ProfileInterface[]
+     */
     protected $profiles;
-    const COMMAND_NAME = 'customer:importer';
+
+    /**
+     * The COMMAND_NAME constant represents the name of the console command.
+     * It is declared as 'customer:importer'.
+     * @var string
+     */
+    const CUSTOMER_COMMAND_NAME = 'customer:importer';
 
     /**
      * ImportCustomerCommand constructor.
@@ -39,23 +54,26 @@ class ImportCustomerCommand extends Command
     }
 
     /**
-     * Configure the command
+     * Configure the details for the custom command
      */
     protected function configure(): void
     {
-        $this->setName(self::COMMAND_NAME);
+        $this->setName(self::CUSTOMER_COMMAND_NAME);
         $this->setDescription('This is my first console command.');
 
+        // Add an option named 'profile'
         $this->addOption(
-            'profile',
+            'profile', 
             null,
-            InputOption::VALUE_REQUIRED,
-            'profile'
+            InputOption::VALUE_REQUIRED, 
+            'profile' 
         );
+       
         $this->addArgument(
-            'source',
-            null
+            'source', 
+            null 
         );
+
         parent::configure();
     }
 
@@ -67,22 +85,27 @@ class ImportCustomerCommand extends Command
      *
      * @return int
      */
-
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $profile = $input->getOption('profile');
         $source = $input->getArgument('source');
 
         try {
-            if (isset($this->profiles[$profile])) {
-                $this->profiles[$profile]->import($source);
-            } else {
-                $output->writeln('<error>Invalid profile. Supported profiles: csv, json</error>');
+            switch ($profile) {
+                case 'csv':
+                    $this->profiles['csv']->import($source);
+                    return Cli::RETURN_SUCCESS;
+                case 'json':
+                    $this->profiles['json']->import($source);
+                    return Cli::RETURN_SUCCESS;
+                default:
+                    $output->writeln('<error>Invalid profile. Supported profiles: csv, json</error>');
+                    return Cli::RETURN_FAILURE;
             }
-            return Cli::RETURN_SUCCESS;
         } catch (\Exception $e) {
             $output->writeln('<error>' . $e->getMessage() . '</error>');
             return Cli::RETURN_FAILURE;
         }
+        
     }
 }

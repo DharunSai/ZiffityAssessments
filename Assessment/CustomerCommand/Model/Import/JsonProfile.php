@@ -1,21 +1,26 @@
 <?php
+declare(strict_types=1);
 
 namespace Assessment\CustomerCommand\Model\Import;
 
+use Psr\Log\LoggerInterface;
 use Assessment\CustomerCommand\Api\ProfileInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Customer\Model\ResourceModel\Customer as CustomerRepositoryInterface;
 use Magento\Customer\Model\CustomerFactory;
+use Magento\Framework\Serialize\SerializerInterface; // Add this use statement
 
 /**
- * @IgnoreAnnotation("ORM")
+ * Class JsonProfile
  *
- * @ORM\Entity
- * @ORM\Table(name="import_profiles")
+ * @package Assessment\CustomerCommand\Model\Import
  */
-
 class JsonProfile implements ProfileInterface
 {
+   /**
+     * @var LoggerInterface
+     */
+    protected $logger;
 
     /**
      * @var CustomerFactory
@@ -27,43 +32,51 @@ class JsonProfile implements ProfileInterface
      */
     protected $customerRepository;
 
-
     /**
-     * JsonProfile constructor.
-     * @param CustomerFactory $customerFactory
-     * @param CustomerRepositoryInterface $customerRepository
+     * @var serializer
      */
+    protected $serializer; // Add this property
+
     public function __construct(
         CustomerFactory $customerFactory,
-        CustomerRepositoryInterface $customerRepository
+        CustomerRepositoryInterface $customerRepository,
+        LoggerInterface $logger,
+        SerializerInterface $serializer // Inject SerializerInterface
     ) {
         $this->customerFactory = $customerFactory;
         $this->customerRepository = $customerRepository;
+        $this->logger = $logger;
+        $this->serializer = $serializer; // Store the injected SerializerInterface
     }
 
-    /**
-     * Import customer data from a JSON file.
+     /**
+     * Import customer data from an array of data and save it in database.
      *
-     * @param string $source The path to the JSON file
+     * @param array $customerDataArray
      */
+    protected function importCustomers(array $customerDataArray)
+    {
+        foreach ($customerDataArray as $customerData) {
+            $customer = $this->customerFactory->create();
+            $customer->setFirstname($customerData['fname']);
+            $customer->setLastname($customerData['lname']);
+            $customer->setEmail($customerData['emailaddress']);
+            $customer->setWebsiteId(1);
+            $customer->setGroupId(1); // Default customer group ID
+            $this->customerRepository->save($customer);
+            $this->logger->info('Customer imported successfully');
+        }
+    }
 
     public function import($source)
     {
         try {
             $jsonData = file_get_contents($source);
-            $data = json_decode($jsonData, true);
-            foreach ($data as $customerData) {
-                $customer = $this->customerFactory->create();
-                $customer->setFirstname($customerData['fname']);
-                $customer->setLastname($customerData['lname']);
-                $customer->setEmail($customerData['emailaddress']);
-                $customer->setWebsiteId(1);
-                $customer->setGroupId(1); // Default customer group ID
-                $this->customerRepository->save($customer);
-                print_r('successfully updated');
-            }
-        } catch (LocalizedException $e) {
-            print_r($e->getMessage());
+            $data = $this->serializer->unserialize($jsonData); // Use the serializer to unserialize JSON
+            $this->importCustomers($data);
+        } 
+        catch (LocalizedException $e) {
+            $this->logger->error($e->getMessage());
         }
     }
 }
