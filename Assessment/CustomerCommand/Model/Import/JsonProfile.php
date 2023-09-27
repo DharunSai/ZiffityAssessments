@@ -46,6 +46,7 @@ class JsonProfile implements ProfileInterface
      *
      * @param string $source The path to the JSON file
      */
+
     public function import($source)
     {
         try {
@@ -61,7 +62,6 @@ class JsonProfile implements ProfileInterface
                 $this->customerRepository->save($customer);
                 print_r('successfully updated');
             }
-            
         } catch (LocalizedException $e) {
             print_r($e->getMessage());
         }

@@ -9,6 +9,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use \Magento\Framework\Console;
 
 /**
  * Class ImportCustomerCommand
@@ -55,7 +56,6 @@ class ImportCustomerCommand extends Command
             'source',
             null
         );
-
         parent::configure();
     }
 
@@ -67,6 +67,7 @@ class ImportCustomerCommand extends Command
      *
      * @return int
      */
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $profile = $input->getOption('profile');
@@ -78,10 +79,10 @@ class ImportCustomerCommand extends Command
             } else {
                 $output->writeln('<error>Invalid profile. Supported profiles: csv, json</error>');
             }
-            return \Magento\Framework\Console\Cli::RETURN_SUCCESS;
+            return Cli::RETURN_SUCCESS;
         } catch (\Exception $e) {
             $output->writeln('<error>' . $e->getMessage() . '</error>');
-            return \Magento\Framework\Console\Cli::RETURN_FAILURE;
+            return Cli::RETURN_FAILURE;
         }
     }
 }

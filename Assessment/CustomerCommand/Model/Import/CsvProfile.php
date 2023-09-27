@@ -32,17 +32,15 @@ class CsvProfile implements ProfileInterface
 
     /**
      * CsvProfile constructor.
-     *
      * @param Csv $csv
      * @param ResourceModel $customerRepository
      * @param CustomerFactory $customerFactory
-     
      */
+
     public function __construct(
         Csv $csv,
         ResourceModel $customerRepository,
         CustomerFactory $customerFactory
-        
     ) {
         $this->csv = $csv;
         $this->customerFactory = $customerFactory;
@@ -54,6 +52,7 @@ class CsvProfile implements ProfileInterface
      *
      * @param string $source The path to the CSV file
      */
+
     public function import($source)
     {
         try {
@@ -70,7 +69,8 @@ class CsvProfile implements ProfileInterface
                 $this->customerRepository->save($customer);
                 print_r('successfully updated');
             }
-        } catch (LocalizedException $e) {
+        } 
+        catch (LocalizedException $e) {
             print_r( $e->getMessage() );
         }
     }
