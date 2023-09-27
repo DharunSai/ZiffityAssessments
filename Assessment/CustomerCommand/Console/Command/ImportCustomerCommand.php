@@ -59,7 +59,7 @@ class ImportCustomerCommand extends Command
     protected function configure(): void
     {
         $this->setName(self::CUSTOMER_COMMAND_NAME);
-        $this->setDescription('This is my first console command.');
+        $this->setDescription('Custom command to import csv and json files.');
 
         // Add an option named 'profile'
         $this->addOption(
